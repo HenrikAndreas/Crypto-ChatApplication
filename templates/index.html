@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <!-- For sockets -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <!-- Vue - Front End Framework -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
+        <!-- Cryptography  - Framework-->
+        <script src="https://cdn.jsdelivr.net/npm/node-forge@0.7.0/dist/forge.min.js"></script>
+        <script src="https://cdn.rawgit.com/CryptoStore/crypto-js/3.1.2/build/rollups/aes.js"></script>
+        <script src="https://cdn.rawgit.com/CryptoStore/crypto-js/3.1.2/build/components/mode-cfb-min.js"></script>
+        <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css')}}" /> -->
+        <title>Chat Room</title>
+      </head>
+
+      <body style="background-color: black;color: white;">
+
+        <div id="vueApp">
+          <h1> {% raw %} {{title}} {% endraw %} </h1>
+
+          <div v-show="!showForm" id="login">
+
+            <form v-show="!signUpVar" id="userform" autocomplete="off" action="javascript:void(0)">
+              <input type="text" v-model.lazy="username" >
+              <input type="text" v-model.lazy="password"> 
+              <button type="submit" v-on:click="login()">Login</button>
+            </form>
+
+            
+            <form v-show="signUpVar" v-show="signUp" autocomplete="off" action="javascript:void(0);">
+              <input type="text" v-model.lazy="username">
+              <input type="text" v-model.lazy="password">
+              <button type="submit" v-on:click="signUp()">SignUp</button>
+            </form>
+            
+            <button type="submit" v-on:click="change_signup()">SignUp</button>
+          </div>
+          
+          <div id="chatArea" v-show="showForm">
+            <p>Logged in as {% raw %} {{username}} {% endraw %}</p> 
+            <div id="chatView">
+
+              <div id="chatDiv" style="float: left; overflow: auto; height: 50%; width: 58%; border: 1px solid #ccc;" >
+                <ul id="chatBox">
+                  <li v-for="msg in data">{% raw %} {{msg}} {% endraw %}</li>
+                </ul>
+              </div>
+              <div id="connected_users" style="float:right; overflow: auto; height: 50%; width: 40%; border: 1px solid #ccc;">
+                <ul id="users_online">
+                  <li v-for="user in users">{% raw %} {{user}} {% endraw %}</li>
+                </ul>
+              </div>
+            </div>
+
+            <div id="inputMessage">
+              <form @submit.prevent="sendMessage">
+                <input placeholder="Message..." type="text" v-model.lazy:value="message">
+                <button type="submit">Send Message</button>
+
+              </form>
+            </div>
+
+            <div id="decrypt">
+              <input type="text" v-model.lazy="crypto_key">
+              <button  v-on:click="decryptionTester()">Decrypt</button>
+            </div>
+
+
+
+          </div>
+
+        </div>
+
+        <script src="{{ url_for('static', filename='main.js') }}"></script>
+      </body>
+
+</html>

@@ -1,0 +1,26 @@
+#body {
+    text-align: center;
+}
+
+#title {
+    text-align: center;
+}
+
+#chatbox {
+    margin: auto;
+    width: 60%;
+    height: 80%;
+    border: 1px solid #ccc;
+    /* overflow må ikke tulles med! */
+    overflow: auto;
+    text-align: left;
+}
+
+#chatline li {
+    list-style: none;
+}
+
+#inputfield {
+    width:50%;
+}
+
