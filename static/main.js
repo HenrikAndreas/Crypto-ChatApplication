@@ -51,6 +51,9 @@ let vueApp = new Vue({
             this.username = '';
         },
         sendMessage: function() {
+            var objDiv = document.getElementById("chatDiv");
+            objDiv.scrollTop = objDiv.scrollHeight;
+    
             var msg = (this.username + ": " + this.message);
             socket.emit('sendMessage', this.encrypt(msg));
             

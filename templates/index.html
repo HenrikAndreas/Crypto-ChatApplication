@@ -51,7 +51,7 @@
               </div>
             </div>
 
-            <div id="inputMessage">
+            <div v-show="decryption" id="inputMessage">
               <form @submit.prevent="sendMessage">
                 <input placeholder="Message..." type="text" v-model.lazy:value="message">
                 <button type="submit">Send Message</button>
@@ -59,7 +59,7 @@
               </form>
             </div>
 
-            <div id="decrypt">
+            <div v-show="!decryption" id="decrypt">
               <input type="text" v-model.lazy="crypto_key">
               <button  v-on:click="decryptionTester()">Decrypt</button>
             </div>
