@@ -20,15 +20,15 @@
           <div v-show="!showForm" id="login">
 
             <form v-show="!signUpVar" id="userform" autocomplete="off" action="javascript:void(0)">
-              <input type="text" v-model.lazy="username" >
-              <input type="text" v-model.lazy="password"> 
+              <p><input placeholder="Username..." type="text" v-model.lazy="username" ></p>
+              <input placeholder="Password..." type="password" v-model.lazy="password"> 
               <button type="submit" v-on:click="login()">Login</button>
             </form>
 
             
             <form v-show="signUpVar" v-show="signUp" autocomplete="off" action="javascript:void(0);">
-              <input type="text" v-model.lazy="username">
-              <input type="text" v-model.lazy="password">
+              <p><input placeholder="Username..." type="text" v-model.lazy="username"></p>
+              <input placeholder="Password..." type="password" v-model.lazy="password">
               <button type="submit" v-on:click="signUp()">SignUp</button>
             </form>
             

@@ -28,6 +28,7 @@ def decrypt(encrypted, passphrase):
     aes = AES.new(passphrase.encode('utf-8'), AES.MODE_CFB, IV, segment_size=128)
     return (aes.decrypt(encrypted[BLOCK_SIZE:]))
 #Cryptography --End--
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(64) # 64 random bytes
 socketio = SocketIO(app)
@@ -38,18 +39,6 @@ usersOnline = []
 @app.route('/')
 def home():
     return render_template("index.html")
-
-
-
-def sendHistory():
-    path = os.path.relpath('data\\log.dat', os.path.dirname(__file__))
-    logFile = open(path, 'r')
-    data = []
-    for line in logFile:
-        currentLine = line.lstrip().rstrip()
-        currentLine = encrypt(currentLine, crypto_key).decode()
-        data.append(currentLine)
-    emit('connection', data)
 
 @socketio.on('signUp')
 def registrationHandler(username, password):
@@ -88,14 +77,6 @@ def messageHandler(message): # From client
 
     emit('messageHandler', encrypt(message, crypto_key).decode(), broadcast=True)
 
-def messageFromServer(message):
-    path = os.path.relpath('data\\log.dat', os.path.dirname(__file__))
-    logFile = open(path, 'a')
-    logFile.write("{0:s}\n".format(message))
-    message = encrypt(message, crypto_key).decode()
-    emit('messageHandler', message, broadcast=True)
-
-
 @socketio.on('disconnect_user')
 def disconnection(username):
     try:
@@ -116,6 +97,24 @@ def username_distribution(username):
 
     emit('username_distribution', users, broadcast=True)
     messageFromServer("{0:s} has connected!".format(username))
+
+def sendHistory():
+    path = os.path.relpath('data\\log.dat', os.path.dirname(__file__))
+    logFile = open(path, 'r')
+    data = []
+    for line in logFile:
+        currentLine = line.lstrip().rstrip()
+        currentLine = encrypt(currentLine, crypto_key).decode()
+        data.append(currentLine)
+    emit('connection', data)
+
+def messageFromServer(message):
+    path = os.path.relpath('data\\log.dat', os.path.dirname(__file__))
+    logFile = open(path, 'a')
+    logFile.write("{0:s}\n".format(message))
+    message = encrypt(message, crypto_key).decode()
+    emit('messageHandler', message, broadcast=True)
+
 
 
 if __name__ == "__main__":
