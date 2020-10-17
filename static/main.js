@@ -1,7 +1,7 @@
 // TODO 
 // Fix --> SignUp joining
 
-const socket = io.connect("127.0.0.1:80");
+const socket = io.connect("10.0.0.40:80");
 
 let vueApp = new Vue({
     el: '#vueApp',
